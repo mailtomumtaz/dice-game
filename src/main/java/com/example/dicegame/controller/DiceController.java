@@ -12,7 +12,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping("/dice-game")
+@RequestMapping("/dice/game/")
 public class DiceController {
 
     @Autowired
@@ -33,7 +33,7 @@ public class DiceController {
      * @param minPlayers
      * @return
      */
-    @PostMapping("/start-game")
+    @PostMapping("/actions/start")
     public ResponseEntity<String> startGame(@RequestParam String minPlayers){
         try {
             return ResponseEntity.ok(diceGameService.startGame(Integer.parseInt(minPlayers)));
@@ -47,7 +47,7 @@ public class DiceController {
      * @param playerName
      * @return
      */
-    @PostMapping("/add-player")
+    @PostMapping("/players/{playerName}")
     public ResponseEntity<String> addPlayer(@RequestParam String playerName){
         return ResponseEntity.ok(diceGameService.addPlayer(playerName));
     }
@@ -58,7 +58,7 @@ public class DiceController {
      * @return
      * @throws Exception
      */
-    @GetMapping(value = "/roll", produces = "application/json")
+    @GetMapping(value = "/actions/roll/{playerName}", produces = "application/json")
     public ResponseEntity<String> roll(@RequestParam String playerName) throws Exception {
         return ResponseEntity.ok( diceGameService.play(playerName));
     }
@@ -67,7 +67,7 @@ public class DiceController {
      * stop-game
      * @return
      */
-    @GetMapping("/stop-game")
+    @GetMapping("/actions/stop")
     public ResponseEntity<String> stopGame(){
         diceGameService.stopGame();
         return ResponseEntity.ok("");
